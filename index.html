@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bate-Papo Uol</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Cabeçalho da página-->
+    <header>
+        <img class="logo" src="imagens/Screenshot_1.png" alt="Logo bate-papo Uol">
+        <img onclick = "infosParticipantes(this)" class="infos"src="imagens/Vector.png" alt="Clicar para ver participantes ativos">
+    </header>
+    
+    <!-- Conteúdo principal-->
+    <main>
+        <div>
+            <p>(09:21:45)  João  entra na sala...</p>
+        </div>
+
+        <div>
+            <p>(09:22:28)  João para Todos:  Bom dia</p>
+        </div>
+
+        <div>
+            <p>(09:22:38)  Maria para João:  Oi João :)</p>
+        </div>
+
+        <div>
+            <p>(09:22:48)  João reservadamente para Maria:  Oi gatinha quer tc?</p>
+        </div>
+
+        <div>
+            <p>(09:22:58)  Maria  sai da sala...</p>
+        </div>
+    </main>
+
+    <aside class="escondida">
+        <div class="barraLateral">
+        <div class="negrito blCabecalho">
+            <p>Escolha um contato para enviar mensagem:</p>
+        </div>
+
+        <div class="infosBarrraLateral">
+            <img src="imagens/Vector.png" alt="">
+            <p>Todos</p>
+        </div>
+
+        <div class="infosBarrraLateral">
+            <img src="imagens/participante.png" alt="">
+            <p>João</p>
+        </div>
+
+        <div class="infosBarrraLateral">
+            <img src="imagens/participante.png" alt="">
+            <p>Maria</p>
+        </div>
+
+        <div class="negrito blRodape">
+            <p>
+                Escolha a visibilidade:
+            </p>
+        </div>
+
+        <div class="infosBarrraLateral">
+            <img src="imagens/publico.png" alt="">
+            <p>Público</p>
+        </div>
+
+        <div class="infosBarrraLateral">
+            <img src="imagens/reservado.png" alt="">
+            <p>Reservado</p>
+        </div>
+    </div>
+    </aside>
+
+    <!-- Rodapé da pa´gina-->
+    <footer class="enviarMensagem">
+        <input type="text" placeholder="Escreva aqui" />
+        <button><img src="imagens/send.png" alt="Botão enviar mensagem"></button>
+    </footer>
+
+    <!-- Scripts-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
