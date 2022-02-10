@@ -26,7 +26,7 @@ header {
 }
 
 /*Configurações para as divs de conversa*/
-main{
+.blocoMensagens {
     display: flex;
     flex-direction: column;
     margin-top: 106px;
