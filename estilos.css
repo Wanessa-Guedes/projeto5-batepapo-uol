@@ -30,17 +30,40 @@ header {
     display: flex;
     flex-direction: column;
     margin-top: 106px;
+    margin-bottom: 82px;
 }
 
-.opacidade{
-    background: rgba(0, 0, 0, 0.6);
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    right: 0;
+.mensagensBatePapo{
+    width: 100%;
+    margin-bottom: 6px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-height: 40px;
+    border-radius: 2px;
+    align-items: baseline;
+}
+
+.entraSaiColor{
+    background-color: #DCDCDC;
+}
+
+.negrito{
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
+
+.font {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.timeColor {
+    color: #AAAA;
+}
+
+.cvReservada{
+    background-color: #FFDEDE;
 }
 
 /*Configurações barra lateral*/
@@ -54,22 +77,35 @@ aside {
 
 }
 
+.infosBarraLateralUsuarios{
+    display: flex;
+    flex-direction: column;
+}
+
 .barraLateral{
     z-index: 3;
     background-color: #FFFFFF;
     position: fixed;
+    top: 0;
     right: 0;
     width: 75%;
     height: 100%;
     align-items: center;
+    overflow-y: scroll
 /*    display: flex;
     flex-direction: column; */
 }
 
-.negrito{
-    font-weight: bold;
-    font-family: 'Roboto', sans-serif;
+.opaco{
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.6);;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
 }
+
 
 .blCabecalho{
     width: 100%;
@@ -101,6 +137,7 @@ aside {
     align-items: center;
     justify-content: center
 }
+
 
 /*Rodape´da página para enviar mensagem*/
 .enviarMensagem {

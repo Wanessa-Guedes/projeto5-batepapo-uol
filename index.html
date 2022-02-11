@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,16 +12,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <!-- Cabeçalho da página-->
     <header>
         <img class="logo" src="imagens/Screenshot_1.png" alt="Logo bate-papo Uol">
-        <img onclick = "infosParticipantes(this)" class="infos"src="imagens/Vector.png" alt="Clicar para ver participantes ativos">
+        <img onclick="infosParticipantes()" class="infos" src="imagens/Vector.png"
+            alt="Clicar para ver participantes ativos">
     </header>
-    
+
     <!-- Conteúdo principal-->
     <main class="blocoMensagens">
-<!--         <div>
+        <!--         <div>
             <p>(09:21:45)  João  entra na sala...</p>
         </div>
 
@@ -42,43 +45,49 @@
     </main>
 
     <aside class="escondida">
+
         <div class="barraLateral">
-        <div class="negrito blCabecalho">
-            <p>Escolha um contato para enviar mensagem:</p>
+            <div class="negrito blCabecalho">
+                <p>Escolha um contato para enviar mensagem:</p>
+            </div>
+
+            <div class="infosBarrraLateral">
+                <img src="imagens/Vector.png" alt="">
+                <p>Todos</p>
+            </div>
+
+            <div class="infosUsuariosOn">
+<!--                 <div class="infosBarrraLateral">
+                    <img src="imagens/participante.png" alt="">
+                    <p>João</p>
+                </div>
+
+                <div class="infosBarrraLateral">
+                    <img src="imagens/participante.png" alt="">
+                    <p>Maria</p>
+                </div> -->
+            </div>
+            <div class="negrito blRodape">
+                <p>
+                    Escolha a visibilidade:
+                </p>
+            </div>
+
+            <div class="infosBarrraLateral">
+                <img src="imagens/publico.png" alt="">
+                <p>Público</p>
+            </div>
+
+            <div class="infosBarrraLateral">
+                <img src="imagens/reservado.png" alt="">
+                <p>Reservado</p>
+            </div>
         </div>
 
-        <div class="infosBarrraLateral">
-            <img src="imagens/Vector.png" alt="">
-            <p>Todos</p>
-        </div>
-
-        <div class="infosBarrraLateral">
-            <img src="imagens/participante.png" alt="">
-            <p>João</p>
-        </div>
-
-        <div class="infosBarrraLateral">
-            <img src="imagens/participante.png" alt="">
-            <p>Maria</p>
-        </div>
-
-        <div class="negrito blRodape">
-            <p>
-                Escolha a visibilidade:
-            </p>
-        </div>
-
-        <div class="infosBarrraLateral">
-            <img src="imagens/publico.png" alt="">
-            <p>Público</p>
-        </div>
-
-        <div class="infosBarrraLateral">
-            <img src="imagens/reservado.png" alt="">
-            <p>Reservado</p>
-        </div>
-    </div>
+        <div onclick="fecharAsideBar()" class="opaco"></div>
     </aside>
+
+    
 
     <!-- Rodapé da pa´gina-->
     <footer class="enviarMensagem">
@@ -90,4 +99,5 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

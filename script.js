@@ -1,5 +1,8 @@
 /* Nome do usuário */
 let login  = {name: ""};
+let usuarios = {name: "João",
+                name:"Maria"}
+// Formato da resposta recebida
 let respostaMensagens = [
 	{
 		from: "João",
@@ -17,20 +20,29 @@ let respostaMensagens = [
 	},
 ];
 
+// Inicializar as variaveis para comparar e mudar para enviar mensagem
+
 let para = "Todos";
 let tipo = "message";
+
 // Manter tudo atualizado a cada 3 segundos
 atualizarSite();
-setInterval(atualizarSite, 3000);
+setInterval(atualizarSite, 60000);
 
+// Fiz uma função pq acho que vou ter que chamar outras... Analisando isso ainda
 function atualizarSite(){
     buscarMensagens();
+    pegarParticipantes();
 }
+
+// Iniciando a conexão com o servidor
 
 function iniciarConexaoServidor(){
 
+    // Entrada ainda com prompt
     let usuario = prompt("Digite seu nome de login:");
     
+    // Se não receber vazio vai lá e posta o usuário depois tem que validar o Login entrando com os dados fornecidos pelo servidor
     if(login !== ""){
         let respostaLogin = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants", {
     name: usuario
@@ -38,8 +50,6 @@ function iniciarConexaoServidor(){
     respostaLogin.then(function validarLogin(usuarioStatus) {
         if(usuarioStatus.status == 200){
             login.name = usuario;
-            console.log(login)
-            console.log(usuarioStatus)
         }
         setInterval(conferirUsuarioStatus, 5000);
     })
@@ -53,59 +63,99 @@ function iniciarConexaoServidor(){
     
 } 
 
+// Tem que conferir o status do usuário, enviando um post com o nome dele para o servidor conferir a atividade
 function conferirUsuarioStatus(){
-    axios.post("https://mock-api.driven.com.br/api/v4/uol/status", login).then(console.log("usuarioStatus"));
+    axios.post("https://mock-api.driven.com.br/api/v4/uol/status", login).then();
     
 }
 
+// Iniciando a busca de mensagens pegando elas do servidor... Quando receber a promessa vai processar
 
 function buscarMensagens() {
     let conversa = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
-    conversa.then(processarMensagens);
+    conversa.then(processarMensagens)
+    .catch(function usuarioDeslogado(){
+        window.location.reload();
+    });
 }
 
+// Recebendo os dados do get enviados pelo servidor
 
 function processarMensagens(mensagem) {
-	console.log(mensagem.data);
+	/* console.log(mensagem.data); */
     respostaMensagens = mensagem.data;
     atualizandoMensagens();
 }
 
+// Colocando as mensagens no HTML
 function atualizandoMensagens(){
     
     let blocoMensagens = document.querySelector(".blocoMensagens");
-    console.log("Dentro de AtualizandoMensagens");
+    
     for(let i = 0; i < respostaMensagens.length; i++){
         blocoMensagens.innerHTML += criarMensagem(respostaMensagens[i]);
     }
 
-   /*  const elementoQueQueroQueApareca = document.querySelector('.blocoMensagens'); */
-    /* blocoMensagens.children.scrollIntoView(); */
     blocoMensagens.children[blocoMensagens.children.length - 1].scrollIntoView();
 }
 
-// tipos de mensagem - 1) mensagem de entrada ou saída - 2) Mensagem para todos - 3) Mensagem privada - Qual o tipo dessa mensagem??
+// Criando as mensagens
+// tipos de mensagem - 1) mensagem de entrada ou saída (conferir status) OK
+// - 2) Mensagem para todos - Conferir o type = message (OK)
+// - 3) Mensagem privada - Nesse caso muda o type e o to -- Tem que analisar isso pq só acontece se as pessoas selecionarem isso
 function criarMensagem(mensagemBatePapo){
     
     let conteudoMensagem = "";
     /* console.log("criarMensagem"); */
 
     if(mensagemBatePapo.type === "status"){
-        conteudoMensagem = `<div><p>(${mensagemBatePapo.time}) ${mensagemBatePapo.from} ${mensagemBatePapo.text}</p></div>`
+        conteudoMensagem = `<div class="entraSaiColor mensagensBatePapo font"><p> <span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> ${mensagemBatePapo.text}</p></div>`
     }
 
     if(mensagemBatePapo.type === "message"){
-        conteudoMensagem = `<div><p>(${mensagemBatePapo.time}) ${mensagemBatePapo.from} para ${mensagemBatePapo.to}: ${mensagemBatePapo.text}</p></div>`
+        conteudoMensagem = `<div class="font mensagensBatePapo"><p><span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> para <span class="negrito">${mensagemBatePapo.to}</span>: ${mensagemBatePapo.text}</p></div>`
     }
 
     if(mensagemBatePapo.type == "private_message"){
-        conteudoMensagem = `<div><p>(${mensagemBatePapo.time}) ${mensagemBatePapo.from} reservadamente para ${mensagemBatePapo.to}: ${mensagemBatePapo.text}</p></div>`
+        conteudoMensagem = `<div class="cvReservada font mensagensBatePapo"><p><span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> reservadamente para <span class="negrito">${mensagemBatePapo.to}</span>: ${mensagemBatePapo.text}</p></div>`
     }
     
     // Colocando dentro da div criada
         return conteudoMensagem;;
 
 }
+// O aside bar também tem que ser criado com os dados dos usuários
+// pegar participantes
+function pegarParticipantes(){
+    let participantesBatePapo = axios.get("https://mock-api.driven.com.br/api/v4/uol/participants");
+    participantesBatePapo.then(processarInfosUsuarios);
+}
+
+function processarInfosUsuarios(usuarios) {
+	console.log(usuarios.data);
+    infosUsuarios = usuarios.data;
+    asideBar();
+}
+
+function asideBar(){
+    let infosBarraLateral = document.querySelector(".infosUsuariosOn");
+
+    infosBarraLateral.innerHTML = "";
+
+    for(let i = 0; i < infosUsuarios.length; i++){
+
+        infosBarraLateral.innerHTML += `<div class="infosBarrraLateral">
+                                            <img src="imagens/participante.png" alt="">
+                                            <p>${infosUsuarios[i].name}</p>
+                                        </div>`
+    }
+}
+
+// Mandar um onclick no aside bar
+function mensagemPrivada(){
+
+}
+
 
 // Enviar mensagem (Postar mensagem.. Preciso de infos do usuário que está querendo postar)
 // onclick
@@ -131,10 +181,15 @@ function enviarMensagem(){
     
 
 // Para habilitar funcionalidades da barra lateral ao clicar no icone
-function infosParticipantes(botao){
+function infosParticipantes(){
     let modificarTelaPrincipal = document.querySelector("aside");
     modificarTelaPrincipal.classList.remove("escondida");
-    modificarTelaPrincipal.classList.add("opacidade");
+}
+
+// Fechar a barra lateral
+function fecharAsideBar(){
+    let fecharBarraLateral = document.querySelector("aside");
+    fecharBarraLateral.classList.add("escondida");
 }
 
 iniciarConexaoServidor();
