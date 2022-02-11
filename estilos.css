@@ -29,8 +29,11 @@ header {
 .blocoMensagens {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+    word-wrap: break-all;
     margin-top: 106px;
     margin-bottom: 82px;
+    
 }
 
 .mensagensBatePapo{
@@ -39,11 +42,15 @@ header {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    word-wrap: break-all;
     min-height: 40px;
     border-radius: 2px;
     align-items: baseline;
 }
 
+.quebrarPalavra {
+    word-wrap: break-all;
+}
 .entraSaiColor{
     background-color: #DCDCDC;
 }
@@ -107,14 +114,6 @@ aside {
 }
 
 
-.blCabecalho{
-    width: 100%;
-    height: 86px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center
-}
 
 .infosBarrraLateral{
     display: flex;
@@ -138,7 +137,53 @@ aside {
     justify-content: center
 }
 
+.escolhaVisibilidade .check {
+    position: absolute;
+    right: 12px;
+    font-size: 19px;
+    color: #32B72F;
+    display: none;
+    z-index: 3;
+}
 
+.escolhaVisibilidade.selecionado .check {
+    display: block;
+}
+
+.infosUsuariosOn .check {
+    position: absolute;
+    right: 12px;
+    font-size: 19px;
+    color: #32B72F;
+    display: none;
+    z-index: 3;
+}
+
+.infosUsuariosOn.selecionado .check {
+    display: block;
+}
+
+.infosBarrraLateral .check {
+    position: absolute;
+    right: 12px;
+    font-size: 19px;
+    color: #32B72F;
+    display: none;
+    z-index: 3;
+}
+
+.infosBarrraLateral.selecionado .check {
+    display: block;
+}
+
+.blCabecalho{
+    width: 100%;
+    height: 86px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
 /*Rodape´da página para enviar mensagem*/
 .enviarMensagem {
     display: flex;
@@ -171,4 +216,7 @@ aside {
     border-radius: 5px;
     width: 26px;
 }
+
+
+
 

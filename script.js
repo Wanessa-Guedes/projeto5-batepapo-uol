@@ -113,7 +113,7 @@ function criarMensagem(mensagemBatePapo){
     }
 
     if(mensagemBatePapo.type === "message"){
-        conteudoMensagem = `<div class="font mensagensBatePapo"><p><span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> para <span class="negrito">${mensagemBatePapo.to}</span>: ${mensagemBatePapo.text}</p></div>`
+        conteudoMensagem = `<div class="font mensagensBatePapo"><p><span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> para <span class="negrito">${mensagemBatePapo.to}</span>: <span class="quebrarPalavra"> ${mensagemBatePapo.text} </span></p></div>`
     }
 
     if(mensagemBatePapo.type == "private_message"){
@@ -144,18 +144,47 @@ function asideBar(){
 
     for(let i = 0; i < infosUsuarios.length; i++){
 
-        infosBarraLateral.innerHTML += `<div class="infosBarrraLateral">
+        infosBarraLateral.innerHTML += `<div class="infosBarrraLateral" onclick="escolherUsuarioMensagem(this)">
                                             <img src="imagens/participante.png" alt="">
                                             <p>${infosUsuarios[i].name}</p>
+                                            <ion-icon class="check" name="checkmark-circle"></ion-icon>
                                         </div>`
     }
 }
 
-// Mandar um onclick no aside bar
-function mensagemPrivada(){
+// Escolher visibilidade da mensagem no aside Bar
+function escolherVisibilidadeMensagem(div,tipo){
+    
+    desmarcarVisibilidade('escolhaVisibilidade', 'selecionado');
 
+    div.classList.add("selecionado");
+    tipoVisibilidade = tipo;
 }
 
+function desmarcarVisibilidade(publicoPrivado, marcado){
+    const tipoMensagemSelecionada = document.querySelector(`.${publicoPrivado} .${marcado}`);
+    if(tipoMensagemSelecionada !== null) {
+        tipoMensagemSelecionada.classList.remove("selecionado");
+    }
+}
+
+// Escolher o usuário que vai mandar a mensagem pelo aside Bar
+
+function escolherUsuarioMensagem(div){
+    
+    desmarcarVisibilidade('infosUsuariosOn', 'selecionado');
+
+    div.classList.add("selecionado");
+    /* console.log(loginNome); */
+    /* usuarioLogin = loginNome; */
+}
+
+function desmarcarVisibilidade(loginUsuario, marcado){
+    const tipoMensagemSelecionada = document.querySelector(`.${loginUsuario} .${marcado}`);
+    if(tipoMensagemSelecionada !== null) {
+        tipoMensagemSelecionada.classList.remove("selecionado");
+    }
+}
 
 // Enviar mensagem (Postar mensagem.. Preciso de infos do usuário que está querendo postar)
 // onclick

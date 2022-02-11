@@ -72,15 +72,18 @@
                     Escolha a visibilidade:
                 </p>
             </div>
+            <div class="escolhaVisibilidade">
+                <div class="infosBarrraLateral" onclick="escolherVisibilidadeMensagem(this,'message')">
+                    <img src="imagens/publico.png" alt="">
+                    <p>Público</p>
+                    <ion-icon class="check" name="checkmark-circle"></ion-icon>
+                </div>
 
-            <div class="infosBarrraLateral">
-                <img src="imagens/publico.png" alt="">
-                <p>Público</p>
-            </div>
-
-            <div class="infosBarrraLateral">
-                <img src="imagens/reservado.png" alt="">
-                <p>Reservado</p>
+                <div class="infosBarrraLateral" onclick="escolherVisibilidadeMensagem(this,'private_message')">
+                    <img src="imagens/reservado.png" alt="">
+                    <p>Reservado</p>
+                    <ion-icon class="check" name="checkmark-circle"></ion-icon>
+                </div>
             </div>
         </div>
 
@@ -95,6 +98,8 @@
         <button onclick="enviarMensagem()"><img src="imagens/send.png" alt="Botão enviar mensagem"></button>
     </footer>
 
+    <!--Ion-Icon-->
+    <script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <!-- Scripts-->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="script.js"></script>
