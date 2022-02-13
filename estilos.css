@@ -45,7 +45,8 @@ header {
     word-wrap: break-all;
     min-height: 40px;
     border-radius: 2px;
-    align-items: baseline;
+    align-items: flex-start;
+    justify-content: center
 }
 
 .quebrarPalavra {
