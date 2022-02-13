@@ -120,8 +120,8 @@ function criarMensagem(mensagemBatePapo,toMessage, userUsuario){
     userUsuario = login.name;
     toMessage = incluirMensagem.to;
     let conteudoMensagem = "";
-    console.log(userUsuario);
-    console.log(toMessage);
+/*     console.log(userUsuario);
+    console.log(toMessage); */
 
     if(mensagemBatePapo.type === "status"){
         conteudoMensagem = `<div class="entraSaiColor mensagensBatePapo font"><p> <span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> ${mensagemBatePapo.text}</p></div>`
@@ -147,7 +147,7 @@ function pegarParticipantes(){
 }
 
 function processarInfosUsuarios(usuarios) {
-	console.log(usuarios.data);
+	/* console.log(usuarios.data); */
     infosUsuarios = usuarios.data;
     asideBar();
 }
@@ -217,12 +217,12 @@ function desmarcarVisibilidade(loginUsuario, marcado){
 function enviarMensagem(){
 
     let usuarioMensagem = document.querySelector(".escreverMensagem").value;
-        
+    let inputUsuarioMensagem = document.querySelector("input");    
     /*if(tipoVisibilidade !== null && usuarioLogin !== null){
         para = usuarioLogin;
         tipo = tipoVisibilidade;
     } */
-    console.log(respostaMensagens);
+    /* console.log(respostaMensagens); */
     incluirMensagem.text = usuarioMensagem;
     incluirMensagem.from = login.name;
 
@@ -237,6 +237,7 @@ function enviarMensagem(){
     ; */
 
     let mensagemEnviada = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", incluirMensagem).then(buscarMensagens);
+    inputUsuarioMensagem.value = "";
 }
 
 
