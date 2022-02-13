@@ -115,10 +115,13 @@ function atualizandoMensagens(){
 // tipos de mensagem - 1) mensagem de entrada ou saída (conferir status) OK
 // - 2) Mensagem para todos - Conferir o type = message (OK)
 // - 3) Mensagem privada - Nesse caso muda o type e o to -- Tem que analisar isso pq só acontece se as pessoas selecionarem isso
-function criarMensagem(mensagemBatePapo){
-    
+function criarMensagem(mensagemBatePapo,toMessage, userUsuario){
+
+    userUsuario = login.name;
+    toMessage = incluirMensagem.to;
     let conteudoMensagem = "";
-    /* console.log("criarMensagem"); */
+    console.log(userUsuario);
+    console.log(toMessage);
 
     if(mensagemBatePapo.type === "status"){
         conteudoMensagem = `<div class="entraSaiColor mensagensBatePapo font"><p> <span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> ${mensagemBatePapo.text}</p></div>`
@@ -128,12 +131,12 @@ function criarMensagem(mensagemBatePapo){
         conteudoMensagem = `<div class="font mensagensBatePapo"><p><span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> para <span class="negrito">${mensagemBatePapo.to}</span>: <span class="quebrarPalavra"> ${mensagemBatePapo.text} </span></p></div>`
     }
 
-    if(mensagemBatePapo.type == "private_message"){
+    if(mensagemBatePapo.type == "private_message" && mensagemBatePapo.to === toMessage && mensagemBatePapo.from === userUsuario){
         conteudoMensagem = `<div class="cvReservada font mensagensBatePapo"><p><span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> reservadamente para <span class="negrito">${mensagemBatePapo.to}</span>: ${mensagemBatePapo.text}</p></div>`
     }
-    
+
     // Colocando dentro da div criada
-        return conteudoMensagem;;
+        return conteudoMensagem;
 
 }
 // O aside bar também tem que ser criado com os dados dos usuários
@@ -196,10 +199,9 @@ function escolherUsuarioMensagem(div,para){
 
     div.classList.add("selecionado");
     incluirMensagem.to = para;
-    
 }
 
-console.log(para);
+console.log(incluirMensagem);
 
 function desmarcarVisibilidade(loginUsuario, marcado){
     const tipoMensagemSelecionada = document.querySelector(`.${loginUsuario} .${marcado}`);
@@ -237,8 +239,6 @@ function enviarMensagem(){
     let mensagemEnviada = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", incluirMensagem).then(buscarMensagens);
 }
 
-
-    
 
 // Para habilitar funcionalidades da barra lateral ao clicar no icone
 function infosParticipantes(){
