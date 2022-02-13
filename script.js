@@ -1,8 +1,15 @@
 /* Nome do usuário */
 let login  = {name: ""};
 let usuarios = {name: "João",
-                name:"Maria"}
+                name:"Maria"};
+
+// Inicializar as variaveis para comparar e mudar para enviar mensagem
+
+let para = "Todos";
+let tipo = "message";
+
 // Formato da resposta recebida
+
 let respostaMensagens = [
 	{
 		from: "João",
@@ -20,10 +27,15 @@ let respostaMensagens = [
 	},
 ];
 
-// Inicializar as variaveis para comparar e mudar para enviar mensagem
 
-let para = "Todos";
-let tipo = "message";
+let incluirMensagem = 
+	{
+		from: "",
+		to: para,
+		text: "",
+		type: tipo
+	}
+;
 
 // Manter tudo atualizado a cada 3 segundos
 atualizarSite();
@@ -142,9 +154,15 @@ function asideBar(){
 
     infosBarraLateral.innerHTML = "";
 
+    infosBarraLateral.innerHTML = `<div class="infosBarrraLateral" onclick="escolherUsuarioMensagem(this,'Todos')">
+                                    <img src="imagens/Vector.png" alt="">
+                                    <p>Todos</p>
+                                    <ion-icon class="check" name="checkmark-circle"></ion-icon>
+                                    </div>`
+
     for(let i = 0; i < infosUsuarios.length; i++){
 
-        infosBarraLateral.innerHTML += `<div class="infosBarrraLateral" onclick="escolherUsuarioMensagem(this)">
+        infosBarraLateral.innerHTML += `<div class="infosBarrraLateral" onclick="escolherUsuarioMensagem(this,'${infosUsuarios[i].name}')">
                                             <img src="imagens/participante.png" alt="">
                                             <p>${infosUsuarios[i].name}</p>
                                             <ion-icon class="check" name="checkmark-circle"></ion-icon>
@@ -158,8 +176,10 @@ function escolherVisibilidadeMensagem(div,tipo){
     desmarcarVisibilidade('escolhaVisibilidade', 'selecionado');
 
     div.classList.add("selecionado");
-    tipoVisibilidade = tipo;
+    
+    incluirMensagem.type = tipo;
 }
+
 
 function desmarcarVisibilidade(publicoPrivado, marcado){
     const tipoMensagemSelecionada = document.querySelector(`.${publicoPrivado} .${marcado}`);
@@ -170,14 +190,16 @@ function desmarcarVisibilidade(publicoPrivado, marcado){
 
 // Escolher o usuário que vai mandar a mensagem pelo aside Bar
 
-function escolherUsuarioMensagem(div){
+function escolherUsuarioMensagem(div,para){
     
     desmarcarVisibilidade('infosUsuariosOn', 'selecionado');
 
     div.classList.add("selecionado");
-    /* console.log(loginNome); */
-    /* usuarioLogin = loginNome; */
+    incluirMensagem.to = para;
+    
 }
+
+console.log(para);
 
 function desmarcarVisibilidade(loginUsuario, marcado){
     const tipoMensagemSelecionada = document.querySelector(`.${loginUsuario} .${marcado}`);
@@ -193,17 +215,26 @@ function desmarcarVisibilidade(loginUsuario, marcado){
 function enviarMensagem(){
 
     let usuarioMensagem = document.querySelector(".escreverMensagem").value;
-    let estiloEnvio = 
-        {
+        
+    /*if(tipoVisibilidade !== null && usuarioLogin !== null){
+        para = usuarioLogin;
+        tipo = tipoVisibilidade;
+    } */
+    console.log(respostaMensagens);
+    incluirMensagem.text = usuarioMensagem;
+    incluirMensagem.from = login.name;
+
+    
+    
+/*         {
             from: login.name,
             to: para,
             text: usuarioMensagem,
             type: tipo
         }
-    ;
+    ; */
 
-    let mensagemEnviada = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", estiloEnvio).then(buscarMensagens);
-
+    let mensagemEnviada = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", incluirMensagem).then(buscarMensagens);
 }
 
 
