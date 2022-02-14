@@ -102,7 +102,8 @@ function processarMensagens(mensagem) {
 function atualizandoMensagens(){
     
     let blocoMensagens = document.querySelector(".blocoMensagens");
-    
+    // Apagando mensagens antigas, melhorar lag do chat
+    blocoMensagens.innerHTML = "";
     for(let i = 0; i < respostaMensagens.length; i++){
         blocoMensagens.innerHTML += criarMensagem(respostaMensagens[i]);
     }
@@ -134,7 +135,6 @@ function criarMensagem(mensagemBatePapo,toMessage, userUsuario){
 
     // Colocando dentro da div criada
         return conteudoMensagem;
-
 }
 
 // Função para pegar os participantes
