@@ -112,25 +112,21 @@ function atualizandoMensagens(){
 }
 
 // Criando as mensagens
-function criarMensagem(mensagemBatePapo,toMessage, userUsuario){
+function criarMensagem(mensagemBatePapo, userUsuario){
 
     userUsuario = login.name;
-    toMessage = incluirMensagem.to;
     let conteudoMensagem = "";
-    let idMensagem = document.querySelector("footer p");
-
+    
     if(mensagemBatePapo.type === "status"){
         conteudoMensagem = `<div class="entraSaiColor mensagensBatePapo font" data-identifier="message"><p> <span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> ${mensagemBatePapo.text}</p></div>`
     }
 
     if(mensagemBatePapo.type === "message"){
         conteudoMensagem = `<div class="font mensagensBatePapo"><p><span class="timeColor" data-identifier="message">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> para <span class="negrito">${mensagemBatePapo.to}</span>: <span class="quebrarPalavra"> ${mensagemBatePapo.text} </span></p></div>`
-        idMensagem.innerHTML = `<p> Enviando para <span>${toMessage}</span> <b>(público)</b> </p>`;
     }
 
     if(mensagemBatePapo.type == "private_message" && (mensagemBatePapo.to === userUsuario || mensagemBatePapo.from === userUsuario || mensagemBatePapo.to === "Todos")){
         conteudoMensagem = `<div class="cvReservada font mensagensBatePapo" data-identifier="message"><p><span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> reservadamente para <span class="negrito">${mensagemBatePapo.to}</span>: ${mensagemBatePapo.text}</p></div>`
-        idMensagem.innerHTML = `<p> Enviando para <span>${toMessage}</span> <b>(reservado)</b> </p>`;
     }
 
     // Colocando dentro da div criada
@@ -179,6 +175,8 @@ function escolherVisibilidadeMensagem(div,tipo){
     div.classList.add("selecionado");
     
     incluirMensagem.type = tipo;
+
+    bottomText();
 }
 
 // Desmarcar a visibilidade da mensagem na barra lateral - para não selecionar duas em simultâneo
@@ -196,6 +194,8 @@ function escolherUsuarioMensagem(div,para){
 
     div.classList.add("selecionado");
     incluirMensagem.to = para;
+
+    bottomText();
 }
 
 
@@ -217,6 +217,24 @@ function infosParticipantes(){
 function fecharAsideBar(){
     let fecharBarraLateral = document.querySelector("aside");
     fecharBarraLateral.classList.add("escondida");
+}
+
+// Para acrescentar e modificar a mensagem no footer - Embaixo de escrever mensagem 
+let idMensagem = document.querySelector("footer p");
+idMensagem.innerHTML = `<p> Enviando para <span>Todos</span> <b>(público)</b> </p>`;
+
+function bottomText(toMessage,typeMessage){
+
+    let idMensagem = document.querySelector("footer p");
+    toMessage = incluirMensagem.to;
+    typeMessage = incluirMensagem.type;
+    if(typeMessage === "message"){
+        idMensagem.innerHTML = `<p> Enviando para <span>${toMessage}</span> <b>(público)</b> </p>`;
+    } else if(typeMessage === "private_message"){
+        idMensagem.innerHTML = `<p> Enviando para <span>${toMessage}</span> <b>(reservado)</b> </p>`;
+    } 
+    
+    
 }
 
 // Função para enviar mensagem ao servidor e postar no chat
