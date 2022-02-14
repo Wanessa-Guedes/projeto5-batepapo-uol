@@ -118,15 +118,15 @@ function criarMensagem(mensagemBatePapo, userUsuario){
     let conteudoMensagem = "";
     
     if(mensagemBatePapo.type === "status"){
-        conteudoMensagem = `<div class="entraSaiColor mensagensBatePapo font" data-identifier="message"><p> <span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> ${mensagemBatePapo.text}</p></div>`
+        conteudoMensagem = `<div class="entraSaiColor mensagensBatePapo font" data-identifier="message"><p> <span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito quebrarPalavra">${mensagemBatePapo.from}</span> ${mensagemBatePapo.text}</p></div>`
     }
 
     if(mensagemBatePapo.type === "message"){
-        conteudoMensagem = `<div class="font mensagensBatePapo"><p><span class="timeColor" data-identifier="message">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> para <span class="negrito">${mensagemBatePapo.to}</span>: <span class="quebrarPalavra"> ${mensagemBatePapo.text} </span></p></div>`
+        conteudoMensagem = `<div class="font mensagensBatePapo"><p><span class="timeColor" data-identifier="message">(${mensagemBatePapo.time})</span> <span class="negrito quebrarPalavra">${mensagemBatePapo.from}</span> para <span class="negrito quebrarPalavra">${mensagemBatePapo.to}</span>: <span class="quebrarPalavra"> ${mensagemBatePapo.text} </span></p></div>`
     }
 
     if(mensagemBatePapo.type == "private_message" && (mensagemBatePapo.to === userUsuario || mensagemBatePapo.from === userUsuario || mensagemBatePapo.to === "Todos")){
-        conteudoMensagem = `<div class="cvReservada font mensagensBatePapo" data-identifier="message"><p><span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> reservadamente para <span class="negrito">${mensagemBatePapo.to}</span>: ${mensagemBatePapo.text}</p></div>`
+        conteudoMensagem = `<div class="cvReservada font mensagensBatePapo" data-identifier="message"><p><span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito quebrarPalavra">${mensagemBatePapo.from}</span> reservadamente para <span class="negrito quebrarPalavra">${mensagemBatePapo.to}</span>: ${mensagemBatePapo.text}</p></div>`
     }
 
     // Colocando dentro da div criada
