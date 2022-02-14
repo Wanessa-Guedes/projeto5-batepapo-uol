@@ -23,26 +23,9 @@
 
     <!-- Conteúdo principal-->
     <main class="blocoMensagens">
-        <!--         <div>
-            <p>(09:21:45)  João  entra na sala...</p>
-        </div>
-
-        <div>
-            <p>(09:22:28)  João para Todos:  Bom dia</p>
-        </div>
-
-        <div>
-            <p>(09:22:38)  Maria para João:  Oi João :)</p>
-        </div>
-
-        <div>
-            <p>(09:22:48)  João reservadamente para Maria:  Oi gatinha quer tc?</p>
-        </div>
-
-        <div>
-            <p>(09:22:58)  Maria  sai da sala...</p>
-        </div> -->
     </main>
+
+    <!-- Barra lateral - Participantes-->
 
     <aside class="escondida">
 
@@ -52,21 +35,6 @@
             </div>
 
             <div class="infosUsuariosOn">
-<!--             <div class="infosBarrraLateral" onclick="escolherUsuarioMensagem(this,'Todos')">
-                <img src="imagens/Vector.png" alt="">
-                <p>Todos</p>
-            </div> -->
-
-            
-<!--                 <div class="infosBarrraLateral">
-                    <img src="imagens/participante.png" alt="">
-                    <p>João</p>
-                </div>
-
-                <div class="infosBarrraLateral">
-                    <img src="imagens/participante.png" alt="">
-                    <p>Maria</p>
-                </div> -->
             </div>
             <div class="negrito blRodape">
                 <p>
@@ -76,13 +44,13 @@
             <div class="escolhaVisibilidade">
                 <div class="infosBarrraLateral" onclick="escolherVisibilidadeMensagem(this,'message')">
                     <img src="imagens/publico.png" alt="">
-                    <p>Público</p>
+                    <p data-identifier="visibility">Público</p>
                     <ion-icon class="check" name="checkmark-circle"></ion-icon>
                 </div>
 
                 <div class="infosBarrraLateral" onclick="escolherVisibilidadeMensagem(this,'private_message')">
                     <img src="imagens/reservado.png" alt="">
-                    <p>Reservado</p>
+                    <p data-identifier="visibility">Reservado</p>
                     <ion-icon class="check" name="checkmark-circle"></ion-icon>
                 </div>
             </div>
@@ -95,8 +63,11 @@
 
     <!-- Rodapé da pa´gina-->
     <footer class="enviarMensagem">
-        <input class="escreverMensagem" type="text" placeholder="Escreva aqui" />
-        <button onclick="enviarMensagem()"><img src="imagens/send.png" alt="Botão enviar mensagem"></button>
+        <div class="enviaMensagem__identificador">
+            <input class="escreverMensagem" type="text" placeholder="Escreva aqui..." />
+            <p></p>
+        </div>
+        <button onclick="enviarMensagem()" data-identifier="send-message"><ion-icon name="paper-plane-outline"></ion-icon></button>
     </footer>
 
     <!--Ion-Icon-->

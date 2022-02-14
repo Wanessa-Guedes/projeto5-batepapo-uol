@@ -27,7 +27,7 @@ let respostaMensagens = [
 	},
 ];
 
-
+// Objeto para incluir mensagens
 let incluirMensagem = 
 	{
 		from: "",
@@ -39,22 +39,24 @@ let incluirMensagem =
 
 // Manter tudo atualizado a cada 3 segundos
 atualizarSite();
-setInterval(atualizarSite, 60000);
+pegarParticipantes();
+setInterval(atualizarSite, 3000);
 
-// Fiz uma função pq acho que vou ter que chamar outras... Analisando isso ainda
+// Manter tudo atualizado a cada 10 segundos
+setInterval(pegarParticipantes, 10000);
+
+// Função para atualizar site
 function atualizarSite(){
     buscarMensagens();
-    pegarParticipantes();
 }
 
 // Iniciando a conexão com o servidor
 
 function iniciarConexaoServidor(){
 
-    // Entrada ainda com prompt
+    // Entrada com prompt
     let usuario = prompt("Digite seu nome de login:");
     
-    // Se não receber vazio vai lá e posta o usuário depois tem que validar o Login entrando com os dados fornecidos pelo servidor
     if(login !== ""){
         let respostaLogin = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants", {
     name: usuario
@@ -75,14 +77,13 @@ function iniciarConexaoServidor(){
     
 } 
 
-// Tem que conferir o status do usuário, enviando um post com o nome dele para o servidor conferir a atividade
+// Função para conferir o status do usuário
 function conferirUsuarioStatus(){
     axios.post("https://mock-api.driven.com.br/api/v4/uol/status", login).then();
     
 }
 
-// Iniciando a busca de mensagens pegando elas do servidor... Quando receber a promessa vai processar
-
+// Iniciando a busca de mensagens 
 function buscarMensagens() {
     let conversa = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
     conversa.then(processarMensagens)
@@ -92,10 +93,8 @@ function buscarMensagens() {
 }
 
 // Recebendo os dados do get enviados pelo servidor
-
 function processarMensagens(mensagem) {
-	/* console.log(mensagem.data); */
-    respostaMensagens = mensagem.data;
+	respostaMensagens = mensagem.data;
     atualizandoMensagens();
 }
 
@@ -112,46 +111,45 @@ function atualizandoMensagens(){
 }
 
 // Criando as mensagens
-// tipos de mensagem - 1) mensagem de entrada ou saída (conferir status) OK
-// - 2) Mensagem para todos - Conferir o type = message (OK)
-// - 3) Mensagem privada - Nesse caso muda o type e o to -- Tem que analisar isso pq só acontece se as pessoas selecionarem isso
 function criarMensagem(mensagemBatePapo,toMessage, userUsuario){
 
     userUsuario = login.name;
     toMessage = incluirMensagem.to;
     let conteudoMensagem = "";
-/*     console.log(userUsuario);
-    console.log(toMessage); */
+    let idMensagem = document.querySelector("footer p");
 
     if(mensagemBatePapo.type === "status"){
-        conteudoMensagem = `<div class="entraSaiColor mensagensBatePapo font"><p> <span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> ${mensagemBatePapo.text}</p></div>`
+        conteudoMensagem = `<div class="entraSaiColor mensagensBatePapo font" data-identifier="message"><p> <span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> ${mensagemBatePapo.text}</p></div>`
     }
 
     if(mensagemBatePapo.type === "message"){
-        conteudoMensagem = `<div class="font mensagensBatePapo"><p><span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> para <span class="negrito">${mensagemBatePapo.to}</span>: <span class="quebrarPalavra"> ${mensagemBatePapo.text} </span></p></div>`
+        conteudoMensagem = `<div class="font mensagensBatePapo"><p><span class="timeColor" data-identifier="message">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> para <span class="negrito">${mensagemBatePapo.to}</span>: <span class="quebrarPalavra"> ${mensagemBatePapo.text} </span></p></div>`
+        idMensagem.innerHTML = `<p> Enviando para <span>${toMessage}</span> <b>(público)</b> </p>`;
     }
 
-    if(mensagemBatePapo.type == "private_message" && mensagemBatePapo.to === toMessage && mensagemBatePapo.from === userUsuario){
-        conteudoMensagem = `<div class="cvReservada font mensagensBatePapo"><p><span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> reservadamente para <span class="negrito">${mensagemBatePapo.to}</span>: ${mensagemBatePapo.text}</p></div>`
+    if(mensagemBatePapo.type == "private_message" && (mensagemBatePapo.to === userUsuario || mensagemBatePapo.from === userUsuario || mensagemBatePapo.to === "Todos")){
+        conteudoMensagem = `<div class="cvReservada font mensagensBatePapo" data-identifier="message"><p><span class="timeColor">(${mensagemBatePapo.time})</span> <span class="negrito">${mensagemBatePapo.from}</span> reservadamente para <span class="negrito">${mensagemBatePapo.to}</span>: ${mensagemBatePapo.text}</p></div>`
+        idMensagem.innerHTML = `<p> Enviando para <span>${toMessage}</span> <b>(reservado)</b> </p>`;
     }
 
     // Colocando dentro da div criada
         return conteudoMensagem;
 
 }
-// O aside bar também tem que ser criado com os dados dos usuários
-// pegar participantes
+
+// Função para pegar os participantes
 function pegarParticipantes(){
     let participantesBatePapo = axios.get("https://mock-api.driven.com.br/api/v4/uol/participants");
     participantesBatePapo.then(processarInfosUsuarios);
 }
 
+// Processando as informações dos usuários
 function processarInfosUsuarios(usuarios) {
-	/* console.log(usuarios.data); */
-    infosUsuarios = usuarios.data;
+	infosUsuarios = usuarios.data;
     asideBar();
 }
 
+// Colocando infos dos usuários na barra lateral
 function asideBar(){
     let infosBarraLateral = document.querySelector(".infosUsuariosOn");
 
@@ -167,13 +165,13 @@ function asideBar(){
 
         infosBarraLateral.innerHTML += `<div class="infosBarrraLateral" onclick="escolherUsuarioMensagem(this,'${infosUsuarios[i].name}')">
                                             <img src="imagens/participante.png" alt="">
-                                            <p>${infosUsuarios[i].name}</p>
+                                            <p data-identifier="participant">${infosUsuarios[i].name}</p>
                                             <ion-icon class="check" name="checkmark-circle"></ion-icon>
                                         </div>`
     }
 }
 
-// Escolher visibilidade da mensagem no aside Bar
+// Escolher visibilidade da mensagem na barra lateral
 function escolherVisibilidadeMensagem(div,tipo){
     
     desmarcarVisibilidade('escolhaVisibilidade', 'selecionado');
@@ -183,7 +181,7 @@ function escolherVisibilidadeMensagem(div,tipo){
     incluirMensagem.type = tipo;
 }
 
-
+// Desmarcar a visibilidade da mensagem na barra lateral - para não selecionar duas em simultâneo
 function desmarcarVisibilidade(publicoPrivado, marcado){
     const tipoMensagemSelecionada = document.querySelector(`.${publicoPrivado} .${marcado}`);
     if(tipoMensagemSelecionada !== null) {
@@ -191,8 +189,7 @@ function desmarcarVisibilidade(publicoPrivado, marcado){
     }
 }
 
-// Escolher o usuário que vai mandar a mensagem pelo aside Bar
-
+// Escolher o usuário para enviar a mensagem pela barra lateral
 function escolherUsuarioMensagem(div,para){
     
     desmarcarVisibilidade('infosUsuariosOn', 'selecionado');
@@ -201,45 +198,14 @@ function escolherUsuarioMensagem(div,para){
     incluirMensagem.to = para;
 }
 
-console.log(incluirMensagem);
 
+// Desmarcar a seleção do usuário na barra lateral - para não selecionar duas em simultâneo
 function desmarcarVisibilidade(loginUsuario, marcado){
     const tipoMensagemSelecionada = document.querySelector(`.${loginUsuario} .${marcado}`);
     if(tipoMensagemSelecionada !== null) {
         tipoMensagemSelecionada.classList.remove("selecionado");
     }
 }
-
-// Enviar mensagem (Postar mensagem.. Preciso de infos do usuário que está querendo postar)
-// onclick
-// Inicializar com para todos e mudar caso seja privado?
-// Manda mensagem infinitamente... Precisava de um comando...
-function enviarMensagem(){
-
-    let usuarioMensagem = document.querySelector(".escreverMensagem").value;
-    let inputUsuarioMensagem = document.querySelector("input");    
-    /*if(tipoVisibilidade !== null && usuarioLogin !== null){
-        para = usuarioLogin;
-        tipo = tipoVisibilidade;
-    } */
-    /* console.log(respostaMensagens); */
-    incluirMensagem.text = usuarioMensagem;
-    incluirMensagem.from = login.name;
-
-    
-    
-/*         {
-            from: login.name,
-            to: para,
-            text: usuarioMensagem,
-            type: tipo
-        }
-    ; */
-
-    let mensagemEnviada = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", incluirMensagem).then(buscarMensagens);
-    inputUsuarioMensagem.value = "";
-}
-
 
 // Para habilitar funcionalidades da barra lateral ao clicar no icone
 function infosParticipantes(){
@@ -253,7 +219,19 @@ function fecharAsideBar(){
     fecharBarraLateral.classList.add("escondida");
 }
 
+// Função para enviar mensagem ao servidor e postar no chat
+function enviarMensagem(){
+
+    let usuarioMensagem = document.querySelector(".escreverMensagem").value;
+    let inputUsuarioMensagem = document.querySelector("input");    
+    incluirMensagem.text = usuarioMensagem;
+    incluirMensagem.from = login.name;
+    let mensagemEnviada = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", incluirMensagem).then(buscarMensagens);
+    
+    // Limpar o input automaticamente quando envia a mensagem
+    inputUsuarioMensagem.value = "";
+}
+
 iniciarConexaoServidor();
-/* verificarStatus(); */
-/* buscarMensagens(); */
+
 
